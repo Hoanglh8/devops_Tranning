@@ -9780,11 +9780,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrator\\source\\repos\\HelloApi\\HelloApi\\HelloApi.csproj",
+      "projectUniqueName": "D:\\Working\\tranning_devops\\jenkin\\HelloApi\\HelloApi\\HelloApi.csproj",
       "projectName": "HelloApi",
-      "projectPath": "C:\\Users\\Administrator\\source\\repos\\HelloApi\\HelloApi\\HelloApi.csproj",
+      "projectPath": "D:\\Working\\tranning_devops\\jenkin\\HelloApi\\HelloApi\\HelloApi.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrator\\source\\repos\\HelloApi\\HelloApi\\obj\\",
+      "outputPath": "D:\\Working\\tranning_devops\\jenkin\\HelloApi\\HelloApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
