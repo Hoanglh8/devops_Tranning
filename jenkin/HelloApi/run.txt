@@ -1,0 +1,24 @@
+Viết 1 API cơ bản (có thể dùng ngôn ngữ gì tùy ý, khuyến khích dùng .Net core), sao cho khi chạy, truy cập vào đường dẫn API (vd localhost:8080/api/hello) hiển thị dòng chữ: "Xin chào API"
+Viết docker file để build image chương trình trên.
+Push docker image lên docker hub.
+Trên máy chủ EC2, pull docker image này về và chạy trên máy chủ, tạo sub domain, cấu hình nginx proxy để trỏ tới service này, sao cho khi truy cập với domain đã tạo ở bài trước (vd: https://api.domain.xyz/api/hello) thì hiển thị dòng chữ "Xin chào API"
+
+Build Docker Image
+docker build -t hoanglh/api .
+
+Push Docker Image to Docker Hub
+docker push hoanglh/api
+
+Pull Docker image
+docker pull hoanglh/api
+
+Create Subdomain
+hello.hoanglh.online
+
+Run services
+docker-compose -f docker-compose.yml up -d
+
+sudo docker run -it --rm -p 8080:80 -d --name hoanglh hoanglh/api
+
+Access to URL
+https://hello.hoanglh.online/WeatherForecast/Hello
