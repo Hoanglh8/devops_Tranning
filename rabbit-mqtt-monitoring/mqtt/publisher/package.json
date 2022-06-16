@@ -1,0 +1,18 @@
+{
+  "name": "emqx-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node publisher.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.0",
+    "express": "^4.18.1",
+    "mqtt": "^4.3.7"
+  }
+}

@@ -1,0 +1,75 @@
+version: '3.8'
+
+networks:
+  my_network:
+    driver: bridge
+  monitoring_global:
+    external: true
+  rabbit_network:
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    build:
+      context: ./rabbit
+      dockerfile: Dockerfile
+    ports:
+      - 15672:15672
+      - 5672:5672
+      - 15692:15692
+    networks:
+      - my_network
+      - rabbit_network
+
+  emqx:
+    image: emqx/emqx:latest
+    container_name: emqx
+    environment:
+      - EMQX_DASHBOARD__DEFAULT_USER__LOGIN=hoanglh
+      - EMQX_DASHBOARD__DEFAULT_USER__PASSWORD=Fsoft@12345
+      - EMQX_LOADED_PLUGINS=emqx_prometheus
+      - EMQX_PROMETHEUS__PUSH__GATEWAY__SERVER=http://pushgateway:9091
+      - EMQX_PROMETHEUS__INTERVAL=15000
+    ports:
+      - 18083:18083
+      - 1883:1883
+      - 8883:8883
+      - 8083:8083
+      - 8084:8084
+    networks:
+      - my_network
+      - monitoring_global
+
+  publisher:
+    container_name: publisher
+    restart: unless-stopped
+    build:
+      context: ./mqtt/publisher
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - rabbitmq
+      - emqx
+    command: sh -c '/bin/wait-for-it.sh emqx:1883 --timeout=30 -- /bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node publisher.js'
+    environment:
+      AMQP_URL: amqp://hoanglh:Fsoft@12345@rabbitmq:5672
+      MQTT_URL: mqtt://emqx:1883
+    networks:
+      - my_network
+
+  receiver:
+    container_name: receiver
+    restart: unless-stopped
+    build:
+      context: ./mqtt/receiver
+      dockerfile: Dockerfile
+    ports:
+      - 5001:5001
+    depends_on:
+      - rabbitmq
+    command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- node receiver.js'
+    environment:
+      AMQP_URL: amqp://hoanglh:Fsoft@12345@rabbitmq:5672
+    networks:
+      - my_network
